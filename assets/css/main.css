@@ -1,0 +1,47 @@
+img {
+  max-width: 100%;
+}
+
+.preview {
+  display: none;
+}
+
+.preview-img {
+  width: 320px;
+  height: 320px;
+  margin: 8px auto;
+}
+
+.title-2, .title-done {
+  display: none;
+}
+
+.canvas-container {
+  display: none;
+}
+
+#share-fb {
+  display: none;
+  width: 100%;
+}
+
+#canvas {
+  display: block;
+  margin: 8px auto;
+}
+
+/* #cropper-container {
+  width: 256px;
+  height: 256px;
+  display:block;
+  margin:auto;
+} */
+
+#btn-browse-fb, #btn-browse-device {
+  width: 100%;
+}
+
+#confirm-crop-button {
+  margin-top: 12px;
+  width: 100%;
+}
