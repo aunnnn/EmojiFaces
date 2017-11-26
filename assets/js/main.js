@@ -15,15 +15,18 @@ function showStep3() {
   hideStep2();
   $('div.row.title-done').fadeIn(500);
   $('div.row.canvas-container').fadeIn(500);
-  $('#share-fb').fadeIn(500);
+  $('.share').fadeIn(500);
+  $('.download').fadeIn(500);
 }
 
 function hideStep3() {
   $('div.row.title-done').hide();
   $('div.row.canvas-container').hide();
-  $('#share-fb').hide();
+  $('.share').hide();
+  $('.download').hide();
 }
 
+// Fix facebook login bug (status: unknown)
 function clearCookies() {
   function delete_cookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
@@ -36,7 +39,7 @@ function clearCookies() {
   }
 }
 
-function drawEmojiOnFaces(ctx, comp) {
+function drawEmojiOnFaces(ctx, comp, canvasW, canvasH) {
   for (let index = 0; index < comp.length; index++) {
     let face = comp[index]
     var emoji = emoji_list[Math.floor(Math.random() * emoji_list.length)];
@@ -47,6 +50,11 @@ function drawEmojiOnFaces(ctx, comp) {
     ctx.textAlign = "center";
     ctx.fillText(emoji, face.x+face.width/2, face.y+face.height/2, face.width*1.4);
   }
+  ctx.font = '40px Raleway';
+  ctx.fillStyle= '#ffcc33';
+  ctx.textBaseline = 'bottom';
+  ctx.textAlign = 'right';
+  ctx.fillText('#EmojiFaces', canvasW - 12, canvasH - 12, canvasW - 24);
 }
 
 // function canvasToGIF(img, successHandler) {
@@ -241,11 +249,17 @@ function main() {
     img = new Image();
     img.src = imageData;
     img.onload = function() {
-      ctx.drawImage(img, 0, 0, 320, 320);
+      var HByW = img.height/img.width;
+      var _w = Math.min(640, img.width);
+      var _h = _w * HByW;
+
+      $('#canvas').prop({ width: _w, height: _h });
+
+      ctx.drawImage(img, 0, 0, _w, _h);
 
       function handleFaces(comp) {
         if (comp && comp.length) {          
-          drawEmojiOnFaces(ctx, comp);
+          drawEmojiOnFaces(ctx, comp, _w, _h);
           showStep3();
         } else {
           alert('No face detected :(');
@@ -259,7 +273,7 @@ function main() {
         if (event.data && event.data.length) {
           handleFaces(event.data);
         } else {
-          alert('No face :(');
+          alert('No face detected. Try to adjust the cropping frame.');
           hideStep3();
         }
       });
@@ -269,7 +283,9 @@ function main() {
 
 
   var blob;
-  $('#share-fb').click(function () {    
+  var fbShareButton = $('#share-fb');
+
+  fbShareButton.click(function () {    
     var data = $('#canvas')[0].toDataURL("image/jpeg");
     try {
         blob = dataURItoBlob(data);        
@@ -277,17 +293,22 @@ function main() {
         console.log(e);
     }
     function postedCallback(data) {
+      fbShareButton.hide();
       alert("Your photo is posted on Facebook! 😂");      
-      $('#success-msg').fadeIn(500);
+      $('.row.success-msg').fadeIn(500);
     }
     function errorCallback(data) {
-      $('#share-fb').show();
+      fbShareButton.disabled = false;
+      fbShareButton.html('Share on Facebook');
+      fbShareButton.css('opacity', 1);
       alert('Error: ' + data);
     }
 
     var caption = 'Check out my #EmojiFaces';
 
-    $('#share-fb').hide();
+    fbShareButton.disabled = true;
+    fbShareButton.css('opacity', 0.5);
+    fbShareButton.html('Posting on Facebook');
 
     FB.getLoginStatus(function (response) {
       if (response.status === "connected") {
@@ -302,5 +323,11 @@ function main() {
           }, {scope: "publish_actions"});
       }
     });
+  });
+
+  $('#btn-download').click(function() {
+    document.getElementById("canvas").toBlob(function(e) {
+      saveAs(e, "emoji-faces-" + (new Date).getTime() + ".jpg")
+    }, "image/jpeg");
   });
 }

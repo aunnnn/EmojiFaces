@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/libs/csphotoselector/csphotoselector.css">
   <script type="text/javascript" src="assets/libs/jquery-3.2.1.min.js"></script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
   
   <!-- <script type="text/javascript" src="assets/libs/facedetection/ccv.js"></script>
   <script type="text/javascript" src="assets/libs/facedetection/face.js"></script> -->
@@ -56,15 +58,19 @@
         <h4><strong>Done!</strong></h4>
       </div>
       <div class="row canvas-container">
-        <canvas id="canvas" style="border:1px solid black;" width="320" height="320"></canvas>
+        <canvas id="canvas" style="border:1px solid black; width: 100%; max-width: 400px;"></canvas>
       </div>
 
       <div class="row share">
-        <button class="button-primary" id="share-fb">Share to Facebook</button>
-        <p id="success-msg" style="display: none;"><em>Your photo is posted on Facebook successfully.</em></p>
+        <button class="button-primary" id="share-fb">Share on Facebook</button>
+      </div>
+      <div class="row download">
+        <button id="btn-download">Download</button>
+      </div>
+      <div class="row success-msg">
+        <p><em>Your photo is posted on Facebook successfully.</em></p>
       </div>
     </div>
-    <div id="results"></div>
   </div>
   <!-- Markup for Carson Shold's Photo Selector -->
   <div id="CSPhotoSelector">
@@ -110,7 +116,8 @@
 <script>
   window.fbAsyncInit = function() {
     FB.init({
-      appId            : '1503027249816680',
+      // appId            : '1503027249816680',
+      appId            : '297367160777764',
       autoLogAppEvents : true,
       xfbml            : true,
       version          : 'v2.11'

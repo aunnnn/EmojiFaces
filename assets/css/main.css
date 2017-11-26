@@ -1,5 +1,5 @@
 img {
-  max-width: 100%;
+width: 100%;
 }
 
 .preview {
@@ -7,8 +7,8 @@ img {
 }
 
 .preview-img {
-  width: 320px;
-  height: 320px;
+  max-width: 400px;
+  max-height: 400px;
   margin: 8px auto;
 }
 
@@ -20,8 +20,11 @@ img {
   display: none;
 }
 
-#share-fb {
+.share, .download, .success-msg {
   display: none;
+}
+
+#share-fb, #btn-download {
   width: 100%;
 }
 
@@ -37,11 +40,29 @@ img {
   margin:auto;
 } */
 
+#btn-browse-fb {
+  background-color: #3B5998 !important;
+  border-style: none;
+}
 #btn-browse-fb, #btn-browse-device {
   width: 100%;
 }
 
 #confirm-crop-button {
-  margin-top: 12px;
+  margin: 12px auto 12px auto;
+  display: block;
+  background-color: #ffcc33 !important;
+  border-style: none;
+  font-weight: bold;
+  font-size: 1.2em;
   width: 100%;
+  height: 50px;
+}
+
+/* Larger than mobile */
+@media (min-width: 500px) {
+  #confirm-crop-button {
+    width: 60%;
+    max-width: 200px;
+  }
 }
