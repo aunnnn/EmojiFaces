@@ -57,11 +57,11 @@ function drawEmojiOnFaces(ctx, comp, canvasW, canvasH) {
     ctx.textAlign = "center";
     ctx.fillText(emoji, face.x+face.width/2, face.y+face.height/2, face.width*1.4);
   }
-  ctx.font = '40px Raleway';
-  ctx.fillStyle= '#F5B133';
-  ctx.textBaseline = 'bottom';
-  ctx.textAlign = 'right';
-  ctx.fillText('#EmojiFaces', canvasW - 12, canvasH - 12, canvasW - 24);
+  // ctx.font = '40px Raleway';
+  // ctx.fillStyle= '#F5B133';
+  // ctx.textBaseline = 'bottom';
+  // ctx.textAlign = 'right';
+  // ctx.fillText('#EmojiFaces', canvasW - 12, canvasH - 12, canvasW - 24);
 }
 
 // function canvasToGIF(img, successHandler) {
@@ -337,6 +337,7 @@ function main() {
       fbShareButton.disabled = false;
       fbShareButton.html('Share on Facebook');
       fbShareButton.css('opacity', 1);
+      console.log(data);
       alert('Error: ' + data);
     }
 
