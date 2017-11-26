@@ -58,7 +58,7 @@ function drawEmojiOnFaces(ctx, comp, canvasW, canvasH) {
     ctx.fillText(emoji, face.x+face.width/2, face.y+face.height/2, face.width*1.4);
   }
   ctx.font = '40px Raleway';
-  ctx.fillStyle= '#ffcc33';
+  ctx.fillStyle= '#F5B133';
   ctx.textBaseline = 'bottom';
   ctx.textAlign = 'right';
   ctx.fillText('#EmojiFaces', canvasW - 12, canvasH - 12, canvasW - 24);
@@ -314,7 +314,7 @@ function main() {
       alert('Error: ' + data);
     }
 
-    var caption = 'Check out my #EmojiFaces';
+    var caption = 'Check out my #EmojiFaces!\nwww.emojifaces.fun';
 
     fbShareButton.disabled = true;
     fbShareButton.css('opacity', 0.5);
