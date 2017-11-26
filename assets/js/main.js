@@ -38,7 +38,7 @@ function clearCookies() {
   function delete_cookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
   }
-  
+
   var cookies = document.cookie.split(";");
   for (var i = 0; i < cookies.length; i++) {
     if(cookies[i].split("=")[0].indexOf("fblo_") != -1)
@@ -73,7 +73,7 @@ function drawEmojiOnFaces(ctx, comp, canvasW, canvasH) {
 //     width: 256,
 //     height: 256,
 //   });
-  
+
 //   ctx.drawImage(img, 0, 0, 256, 256);
 
 //   gif.addFrame(ctx, {copy: true});
@@ -83,24 +83,24 @@ function drawEmojiOnFaces(ctx, comp, canvasW, canvasH) {
 //   gif.addFrame(ctx, {copy: true});
 
 //   ctx.drawImage(img, 20, 20, 216, 216);
-  
+
 //   gif.addFrame(ctx, {copy: true});
-  
+
 //   gif.on('finished', function(blob) {
 //     var finishedURL = URL.createObjectURL(blob)
 //     successHandler(finishedURL, blob)
 //     $('#share-img').attr('src', finishedURL);
 //   });
-  
+
 //   gif.render();
 // }
 
 function main() {
-  
+
   var selector, logActivity, callbackAlbumSelected, callbackPhotoUnselected, callbackSubmit;
 	var $buttonOK = $('#CSPhotoSelector_buttonOK');
   var o = this;
-  
+
   var $image_cropper = $('#preview-cropper-image')
   $image_cropper.cropper(cropperOptions);
 
@@ -166,15 +166,21 @@ function main() {
   }
 
   $('#btn-start').click(function() {
-    ga("send", "event", "Start", "click", "User clicked start");
+    gtag('event', 'Start', {
+      'event_category': 'Start',
+      'event_label': 'User clicked start'
+    })
     showStep1();
   })
   // ---------------
   // FB Login & Browse
-  // ---------------  
+  // ---------------
   var fbAuth;
   $("#btn-browse-fb").click(function (e) {
-    ga("send", "event", "Uploads", "click", "Facebook");
+    gtag('event', 'Uploads', {
+      'event_category': 'Uploads',
+      'event_label': 'Facebook upload'
+    });
     e.preventDefault();
     if (fbAuth) {
       FB.getLoginStatus(function (response) {
@@ -203,7 +209,10 @@ function main() {
   // Device Browse
   // ---------------
   $('#btn-browse-device').click(function(){
-    ga("send", "event", "Uploads", "click", "Device");
+    gtag('event', 'Uploads', {
+      'event_category': 'Uploads',
+      'event_label': 'Device upload'
+    });
 		$('.browse-hide').trigger('click');
   });
 
@@ -213,10 +222,10 @@ function main() {
     dragMode: "move",
     autoCropArea: .9,
     cropBoxMovable: 1,
-    cropBoxResizable: 1,    
+    cropBoxResizable: 1,
     minCropBoxWidth: 120
   }
-  
+
   var $deviceBrowse = $('#deviceBrowse');
 
   var uploadedImageType = 'image/jpeg';
@@ -256,6 +265,10 @@ function main() {
   var ctx = canvas.getContext('2d');
 
   $('#confirm-crop-button').click(function () {
+    gtag('event', 'Crop', {
+      'event_category': 'Crop',
+      'event_label': 'Crop photo'
+    });
     var imageData = $image_cropper.cropper('getCroppedCanvas').toDataURL();
 
     // load image from data url
@@ -271,7 +284,7 @@ function main() {
       ctx.drawImage(img, 0, 0, _w, _h);
 
       function handleFaces(comp) {
-        if (comp && comp.length) {          
+        if (comp && comp.length) {
           drawEmojiOnFaces(ctx, comp, _w, _h);
           showStep3();
         } else {
@@ -298,24 +311,26 @@ function main() {
   var blob;
   var fbShareButton = $('#share-fb');
 
-  fbShareButton.click(function () {    
-    ga("send", "event", "Share", "click", "Share result on Facebook");
+  fbShareButton.click(function () {
+    gtag('event', 'Click share result', {
+      'event_category': 'Click share result',
+      'event_label': 'Click share result on Facebook'
+    });
     var data = $('#canvas')[0].toDataURL("image/jpeg");
     try {
-        blob = dataURItoBlob(data);        
+        blob = dataURItoBlob(data);
     } catch (e) {
         console.log(e);
     }
     function postedCallback(data) {
-      ga('send', {
-        hitType: 'social',
-        socialNetwork: 'Facebook',
-        socialAction: 'postResultPhoto',
-        socialTarget: 'http://emojifaces.fun'
+      gtag('event', 'share', {
+        'method': 'Facebook',
+        'content_id': 'http://emojifaces.fun',
+        'event_action': 'Share result photo'
       });
 
       fbShareButton.hide();
-      alert("Your photo is posted on Facebook! 😂");            
+      alert("Your photo is posted on Facebook! 😂");
       $('.row.success-msg').fadeIn(500);
     }
     function errorCallback(data) {
@@ -347,7 +362,10 @@ function main() {
   });
 
   $('#btn-download').click(function() {
-    ga("send", "event", "Downloads", "click", "Download Photo");
+    gtag('event', 'Downloads', {
+      'event_category': 'Downloads',
+      'event_label': 'User downloads photo'
+    });
     document.getElementById("canvas").toBlob(function(e) {
       saveAs(e, "emoji-faces-" + (new Date).getTime() + ".jpg")
     }, "image/jpeg");
