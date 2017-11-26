@@ -166,6 +166,7 @@ function main() {
   }
 
   $('#btn-start').click(function() {
+    ga("send", "event", "Start", "click", "User clicked start");
     showStep1();
   })
   // ---------------
@@ -173,6 +174,7 @@ function main() {
   // ---------------  
   var fbAuth;
   $("#btn-browse-fb").click(function (e) {
+    ga("send", "event", "Uploads", "click", "Facebook");
     e.preventDefault();
     if (fbAuth) {
       FB.getLoginStatus(function (response) {
@@ -201,6 +203,7 @@ function main() {
   // Device Browse
   // ---------------
   $('#btn-browse-device').click(function(){
+    ga("send", "event", "Uploads", "click", "Device");
 		$('.browse-hide').trigger('click');
   });
 
@@ -296,6 +299,7 @@ function main() {
   var fbShareButton = $('#share-fb');
 
   fbShareButton.click(function () {    
+    ga("send", "event", "Share", "click", "Share result on Facebook");
     var data = $('#canvas')[0].toDataURL("image/jpeg");
     try {
         blob = dataURItoBlob(data);        
@@ -303,8 +307,15 @@ function main() {
         console.log(e);
     }
     function postedCallback(data) {
+      ga('send', {
+        hitType: 'social',
+        socialNetwork: 'Facebook',
+        socialAction: 'postResultPhoto',
+        socialTarget: 'http://emojifaces.fun'
+      });
+
       fbShareButton.hide();
-      alert("Your photo is posted on Facebook! 😂");      
+      alert("Your photo is posted on Facebook! 😂");            
       $('.row.success-msg').fadeIn(500);
     }
     function errorCallback(data) {
@@ -336,6 +347,7 @@ function main() {
   });
 
   $('#btn-download').click(function() {
+    ga("send", "event", "Downloads", "click", "Download Photo");
     document.getElementById("canvas").toBlob(function(e) {
       saveAs(e, "emoji-faces-" + (new Date).getTime() + ".jpg")
     }, "image/jpeg");
