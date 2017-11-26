@@ -2,6 +2,12 @@ img {
 width: 100%;
 }
 
+.intro img {
+  width: 256px;
+  display: block;
+  margin: 0 auto;
+}
+
 .preview {
   display: none;
 }
@@ -12,7 +18,7 @@ width: 100%;
   margin: 8px auto;
 }
 
-.title-2, .title-done {
+.title-1, .title-2, .title-done, .share, .download, .success-msg, .upload {
   display: none;
 }
 
@@ -20,12 +26,18 @@ width: 100%;
   display: none;
 }
 
-.share, .download, .success-msg {
-  display: none;
+#share-fb, #btn-download, #btn-start {
+  width: 100%;
 }
 
-#share-fb, #btn-download {
-  width: 100%;
+#btn-start {
+  display: block;
+  margin: 20px auto 0 auto;
+  background-color: #ffcc33 !important;
+  border-style: none;
+  font-weight: bold;
+  font-size: 1em;
+  height: 44px;
 }
 
 #canvas {
@@ -61,7 +73,7 @@ width: 100%;
 
 /* Larger than mobile */
 @media (min-width: 500px) {
-  #confirm-crop-button {
+  #confirm-crop-button, #btn-start {
     width: 60%;
     max-width: 200px;
   }
