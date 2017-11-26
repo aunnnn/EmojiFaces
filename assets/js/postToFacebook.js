@@ -8,7 +8,7 @@ function dataURItoBlob(dataURI) {
   return new Blob([ab], {type: 'image/png'});
 }
 
-function postImageToFacebook(token, filename, mimeType, imageData, message, successCallback) {
+function postImageToFacebook(token, filename, mimeType, imageData, message, successCallback, errorCallback) {
   console.log('post...', imageData);
   var fd = new FormData();
   fd.append("access_token", token);
