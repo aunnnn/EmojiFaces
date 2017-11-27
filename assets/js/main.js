@@ -1,6 +1,7 @@
 var emoji_list = ["😀","😁","😂","😃","😄","😅","😆","😇","😈","👿","😉","😊","☺️","😋","😌","😍","😎","😏","😐","😑","😒","😓","😔","😕","😖","😗","😘","😙","😚","😛","😜","😝","😞","😟","😠","😡","😢","😣","😤","😥","😦","😧","😨","😩","😪","😫","😬","😭","😮","😯","😰","😱","😲","😳","😴","😵","😶","😷", "💩"];
 
 function showStep1() {
+  $('#logged-in').hide();
   $('#btn-start').hide();
   $('div.intro').hide();
   $('.row.title-1').fadeIn(500);
@@ -101,6 +102,7 @@ function main() {
 	var $buttonOK = $('#CSPhotoSelector_buttonOK');
   var o = this;
 
+  var FBLoginScope = 'user_photos,publish_actions';
   var $image_cropper = $('#preview-cropper-image')
   $image_cropper.cropper(cropperOptions);
 
@@ -172,6 +174,21 @@ function main() {
     })
     showStep1();
   })
+
+  $('#btn-fb-logout').click(function (e) {
+		e.preventDefault();
+		FB.logout();
+    // $("#login-status").html("Not logged in");
+    $('#logged-in').hide();
+  });
+  
+  FB.getLoginStatus(function(response) {
+    if (response.status === 'connected') {
+      $('#logged-in').show();
+    } else {
+      $('#logged-in').hide();
+    }
+  });
   // ---------------
   // FB Login & Browse
   // ---------------
@@ -201,7 +218,7 @@ function main() {
           $("#btn-browse-fb").html('From Facebook');
           alert('Failed to login facebook.');
         }
-      }, {scope: 'user_photos'});
+      }, {scope: FBLoginScope });
     }
   });
 
@@ -311,18 +328,33 @@ function main() {
   var blob;
   var fbShareButton = $('#share-fb');
 
+  var getImageToBeSentToFacebook = function() {
+    // get the reference to the canvas
+    var canvas = $('#canvas')[0];
+  
+    // extract its contents as a jpeg image
+    var data = canvas.toDataURL('image/jpeg');
+  
+    // strip the base64 "header"
+    data = data.replace(/^data:image\/(png|jpe?g);base64,/, '');
+  
+    // convert the base64 string to string containing the binary data
+    return conversions.base64ToString(data);
+  }
+
   fbShareButton.click(function () {
     gtag('event', 'Click share result', {
       'event_category': 'Click share result',
       'event_label': 'Click share result on Facebook'
     });
+    // var imageData = getImageToBeSentToFacebook();
     var data = $('#canvas')[0].toDataURL("image/jpeg");
     try {
-        blob = dataURItoBlob(data);
+      imageData = dataURItoBlob(data);
     } catch (e) {
-        console.log(e);
+      console.log(e);
     }
-    function postedCallback(data) {
+    function successCallback(data) {
       gtag('event', 'share', {
         'method': 'Facebook',
         'content_id': 'http://emojifaces.fun',
@@ -349,15 +381,15 @@ function main() {
 
     FB.getLoginStatus(function (response) {
       if (response.status === "connected") {
-          postImageToFacebook(response.authResponse.accessToken, "Canvas to Facebook/Twitter", "image/jpeg", blob, caption, postedCallback, errorCallback);
+        postImageToFacebook(response.authResponse.accessToken, imageData, caption, successCallback, errorCallback);
       } else if (response.status === "not_authorized") {
-          FB.login(function (response) {
-              postImageToFacebook(response.authResponse.accessToken, "Canvas to Facebook/Twitter", "image/jpeg", blob, caption, postedCallback, errorCallback);
-          }, {scope: "publish_actions"});
+        FB.login(function (response) {
+            postImageToFacebook(response.authResponse.accessToken, imageData, caption, successCallback, errorCallback);
+        }, {scope: FBLoginScope});
       } else {
-          FB.login(function (response) {
-              postImageToFacebook(response.authResponse.accessToken, "Canvas to Facebook/Twitter", "image/jpeg", blob, caption, postedCallback, errorCallback);
-          }, {scope: "publish_actions"});
+        FB.login(function (response) {
+            postImageToFacebook(response.authResponse.accessToken, imageData, caption, successCallback, errorCallback);
+        }, {scope: FBLoginScope});
       }
     });
   });

@@ -5,15 +5,15 @@ function dataURItoBlob(dataURI) {
   for (var i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
   }
-  return new Blob([ab], {type: 'image/png'});
+  return new Blob([ab], {type: 'image/jpeg'});
 }
 
-function postImageToFacebook(token, filename, mimeType, imageData, message, successCallback, errorCallback) {
-  console.log('post...', imageData);
+function postImageToFacebook(token, imageData, message, successCallback, errorCallback) {
   var fd = new FormData();
   fd.append("access_token", token);
   fd.append("source", imageData);
   fd.append("caption", message);
+
   $.ajax({
       url: "https://graph.facebook.com/me/photos?access_token=" + token,
       type: "POST",
@@ -30,7 +30,7 @@ function postImageToFacebook(token, filename, mimeType, imageData, message, succ
         errorCallback(data);
       },
       complete: function (data) {
-          //console.log('Post to facebook Complete');
+        console.log('Post to facebook Complete');
       }
   });
 }
