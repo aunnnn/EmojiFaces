@@ -102,7 +102,8 @@ function main() {
 	var $buttonOK = $('#CSPhotoSelector_buttonOK');
   var o = this;
 
-  var FBLoginScope = 'user_photos,publish_actions';
+  var FBReadPhotoScope = 'user_photos';
+  var FBSharePhotoScope = 'publish_actions';
   var $image_cropper = $('#preview-cropper-image')
   $image_cropper.cropper(cropperOptions);
 
@@ -218,7 +219,7 @@ function main() {
           $("#btn-browse-fb").html('From Facebook');
           alert('Failed to login facebook.');
         }
-      }, {scope: FBLoginScope });
+      }, {scope: FBReadPhotoScope });
     }
   });
 
@@ -361,7 +362,7 @@ function main() {
         'event_action': 'Share result photo'
       });
 
-      fbShareButton.hide();
+      $('div.share').hide();
       alert("Your photo is posted on Facebook! 😂");
       $('.row.success-msg').fadeIn(500);
     }
@@ -379,19 +380,9 @@ function main() {
     fbShareButton.css('opacity', 0.5);
     fbShareButton.html('Posting on Facebook');
 
-    FB.getLoginStatus(function (response) {
-      if (response.status === "connected") {
-        postImageToFacebook(response.authResponse.accessToken, imageData, caption, successCallback, errorCallback);
-      } else if (response.status === "not_authorized") {
-        FB.login(function (response) {
-            postImageToFacebook(response.authResponse.accessToken, imageData, caption, successCallback, errorCallback);
-        }, {scope: FBLoginScope});
-      } else {
-        FB.login(function (response) {
-            postImageToFacebook(response.authResponse.accessToken, imageData, caption, successCallback, errorCallback);
-        }, {scope: FBLoginScope});
-      }
-    });
+    FB.login(function (response) {
+      postImageToFacebook(response.authResponse.accessToken, imageData, caption, successCallback, errorCallback);
+    }, {scope: FBSharePhotoScope});
   });
 
   $('#btn-download').click(function() {
