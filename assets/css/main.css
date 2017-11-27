@@ -26,6 +26,10 @@ width: 100%;
   display: none;
 }
 
+#fb-caption {
+  font-size: 1em;
+}
+
 #share-fb, #btn-download, #btn-start {
   width: 100%;
 }

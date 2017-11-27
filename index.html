@@ -85,9 +85,13 @@
       </div>
 
       <div class="row share">
+        <h5><strong>Your caption:</strong></h5>
+        <textarea class="u-full-width" placeholder="Insert your Facebook caption here..." id="fb-caption">&#13;&#10;&#13;&#10;Check out my #EmojiFaces!&#13;&#10;www.emojifaces.fun</textarea>
         <button class="button-primary" id="share-fb">Share on Facebook</button>
       </div>
       <div class="row download">
+        <hr>
+        <h5><strong>Or</strong></h5>
         <button id="btn-download">Download</button>
       </div>
       <div class="row success-msg">
@@ -139,7 +143,8 @@
 <script>
   window.fbAsyncInit = function() {
     FB.init({
-      appId            : '1503027249816680',
+      // appId            : '1503027249816680',
+      appId: '297367160777764',
       autoLogAppEvents : true,
       xfbml            : true,
       version          : 'v2.11'

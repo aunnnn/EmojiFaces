@@ -373,7 +373,7 @@ function main() {
       alert('Error: ' + data);
     }
 
-    var caption = 'Check out my #EmojiFaces!\nwww.emojifaces.fun';
+    var caption = $('#fb-caption').val();
 
     fbShareButton.disabled = true;
     fbShareButton.css('opacity', 0.5);
