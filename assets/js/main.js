@@ -6,6 +6,7 @@ function showStep1() {
   $('div.intro').hide();
   $('.row.title-1').fadeIn(500);
   $('.row.upload').fadeIn(500);
+  $('div.row.tips').fadeIn(500);
 }
 
 function showStep2() {
