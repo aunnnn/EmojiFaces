@@ -65,8 +65,8 @@ function drawEmojiOnFaces(ctx, comp, canvasW, canvasH) {
   ctx.textBaseline = 'bottom';
   ctx.textAlign = 'right';
   ctx.lineWidth = 4;
-  ctx.strokeText('emojifaces.fun', canvasW - 12, canvasH - 12, canvasW - 24);
-  ctx.fillText('emojifaces.fun', canvasW - 12, canvasH - 12, canvasW - 24);
+  ctx.strokeText('#EmojiFaces', canvasW - 12, canvasH - 12, canvasW - 24);
+  ctx.fillText('#EmojiFaces', canvasW - 12, canvasH - 12, canvasW - 24);
 }
 
 // function canvasToGIF(img, successHandler) {
