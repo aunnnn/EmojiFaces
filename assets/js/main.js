@@ -60,7 +60,7 @@ function drawEmojiOnFaces(ctx, comp, canvasW, canvasH) {
     ctx.fillText(emoji, face.x+face.width/2, face.y+face.height/2, face.width*1.4);
   }
   var fontSize = Math.min(canvasH/10, 36);
-  ctx.font = fontSize + 'px Raleway';
+  ctx.font = fontSize + 'px HelveticaNeue';
   ctx.fillStyle= '#ffcc33';
   ctx.strokeStyle = 'black';
   ctx.textBaseline = 'bottom';
@@ -187,7 +187,7 @@ function main() {
     // $("#login-status").html("Not logged in");
     $('#logged-in').hide();
   });
-  
+
   FB.getLoginStatus(function(response) {
     if (response.status === 'connected') {
       $('#logged-in').show();
@@ -337,13 +337,13 @@ function main() {
   var getImageToBeSentToFacebook = function() {
     // get the reference to the canvas
     var canvas = $('#canvas')[0];
-  
+
     // extract its contents as a jpeg image
     var data = canvas.toDataURL('image/jpeg');
-  
+
     // strip the base64 "header"
     data = data.replace(/^data:image\/(png|jpe?g);base64,/, '');
-  
+
     // convert the base64 string to string containing the binary data
     return conversions.base64ToString(data);
   }
