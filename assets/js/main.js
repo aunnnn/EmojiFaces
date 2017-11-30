@@ -299,7 +299,7 @@ function main() {
     img.src = imageData;
     img.onload = function() {
       var HByW = img.height/img.width;
-      var _w = Math.min(640, img.width);
+      var _w = Math.min(800, img.width);
       var _h = _w * HByW;
 
       $('#canvas').prop({ width: _w, height: _h });
@@ -307,17 +307,12 @@ function main() {
       ctx.drawImage(img, 0, 0, _w, _h);
 
       function handleFaces(comp) {
-        if (comp && comp.length) {
-          drawEmojiOnFaces(ctx, comp, _w, _h);
-          showStep3();
-        } else {
-          alert('No face detected :(');
-          hideStep3();
-        }
+        drawEmojiOnFaces(ctx, comp, _w, _h);
+        showStep3();
       }
 
       var tracker = new tracking.ObjectTracker(['face']);
-      tracker.setStepSize(1.7);
+      tracker.setStepSize(1.5);
       tracker.on('track', function(event) {
         if (event.data && event.data.length) {
           handleFaces(event.data);
